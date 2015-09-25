@@ -1,0 +1,33 @@
+import java.util.*;
+public class Solution {
+    public void getCombination(int [] candidates, int target, int index, List<Integer> li, List<List<Integer>> list)
+    {
+        if(target==0)
+        {
+            List<Integer> ll=new ArrayList(li);
+            list.add(ll);
+            return;
+        }
+        if(index>=candidates.length||candidates[index]>target)
+        {
+            return;
+        }
+        li.add(candidates[index]);
+        getCombination(candidates, target-candidates[index], index+1, li, list);
+        li.remove(li.size()-1);
+        int k=1;
+        while(index+k<candidates.length&&candidates[index+k]==candidates[index])
+        {
+            k++;
+        }
+        getCombination(candidates, target, index+k, li, list);
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> list=new ArrayList();
+        List<Integer> li=new ArrayList();
+        int index=0;
+        Arrays.sort(candidates);
+        getCombination(candidates, target, index, li, list);
+        return list;
+    }
+}

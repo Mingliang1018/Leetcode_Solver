@@ -1,0 +1,24 @@
+public class Solution {
+    
+    public String countAndSay(int n) {
+        if(n==1)
+            return "1";
+        String str=countAndSay(n-1);
+        String res="";
+        int i=0;
+        while(i<str.length())
+        {
+            int count=1;
+            char ch=str.charAt(i);
+            i++;
+            while(i<str.length()&&str.charAt(i)==ch)
+            {
+                i++;
+                count++;
+            }
+            res+=String.valueOf(count)+ch;
+        }
+        return res;
+    }
+        
+}
