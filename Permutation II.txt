@@ -1,0 +1,35 @@
+import java.util.*;
+public class Solution {
+    public void getPermute(List<Integer> li, int start, List<List<Integer>> list)
+    {
+        int len=li.size();
+        if(start==len-1)
+        {
+            List<Integer> ll=new ArrayList(li);
+            list.add(ll);
+            return;
+        }
+        for(int i=start; i<len; i++)
+        {
+            if(i>start&&li.get(i)==li.get(i-1))
+                continue;
+            li.add(start, li.get(i));
+            li.remove(i+1);
+            getPermute(li, start+1, list);
+            li.add(i+1, li.get(start));
+            li.remove(start);
+        }
+    }
+    public List<List<Integer>> permuteUnique(int[] nums) {
+       List<List<Integer>> list=new ArrayList();
+       Arrays.sort(nums);
+       List<Integer> li=new ArrayList();
+       for(int n:nums)
+       {
+           li.add(n);
+       }
+       getPermute(li, 0, list);
+       return list;
+    }
+
+}

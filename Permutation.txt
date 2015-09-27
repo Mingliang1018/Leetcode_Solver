@@ -1,0 +1,32 @@
+import java.util.*;
+public class Solution {
+    public void getPermute(int []nums, int start, List<List<Integer>> list)
+    {
+        if(start==nums.length-1)
+        {
+
+            List<Integer> li=new ArrayList();
+        	for(int n:nums)
+        	{
+        		li.add(n);
+        	}
+            list.add(li);
+            return;
+        }
+        for(int i=start; i<nums.length; i++)
+        {
+            int tmp=nums[i];
+            nums[i]=nums[start];
+            nums[start]=tmp;
+            getPermute(nums, start+1, list);
+            tmp=nums[start];
+            nums[start]=nums[i];
+            nums[i]=tmp;
+        }
+    }
+    public List<List<Integer>> permute(int[] nums) {
+       List<List<Integer>> list=new ArrayList();
+       getPermute(nums, 0, list);
+       return list;
+    }
+}

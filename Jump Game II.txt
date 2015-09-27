@@ -1,0 +1,23 @@
+public class Solution {
+    public int jump(int[] nums) {
+        if(nums.length<2)
+            return 0;
+        int from=1;
+        int to=nums[0];
+        int step=0;
+        while(to<nums.length-1)
+        {
+            int max=from+nums[from];
+            for(int i=from; i<=to; i++)
+            {
+               int sum=i+nums[i];
+               if(sum>max)
+                max=sum;
+            }
+            step++;
+            from=to+1;
+            to=max;
+        }
+        return step+1;
+    }
+}
