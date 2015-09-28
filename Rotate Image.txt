@@ -1,0 +1,20 @@
+public class Solution {
+    public void rotate(int[][] matrix) {
+        int n=matrix.length;
+        int layers=n/2;
+        for(int layer=0; layer<layers; layer++)
+        {
+            int len=n-layer*2;
+            for(int k=0; k<len-1; k++)
+            {
+                int tmp=matrix[layer][layer+k];
+                matrix[layer][layer+k]=matrix[layer+len-1-k][layer];
+                matrix[layer+len-1-k][layer]=matrix[layer+len-1][layer+len-1-k];
+                matrix[layer+len-1][layer+len-1-k]=matrix[layer+k][layer+len-1];
+                matrix[layer+k][layer+len-1]=tmp;
+                
+            }
+        }
+        
+    }
+}

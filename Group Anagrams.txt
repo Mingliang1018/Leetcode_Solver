@@ -1,0 +1,39 @@
+import java.util.*;
+import java.util.Map.Entry;
+public class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> list=new ArrayList();
+        Hashtable<String, List<String>> table=new Hashtable();
+        for(int i=0; i<strs.length; i++)
+        {
+            char []array=strs[i].toCharArray();
+            Arrays.sort(array);
+            String ss=new String(array);
+            if(table.containsKey(ss))
+            {
+            	//System.out.println("hah");
+            	List<String> li=table.get(ss);
+            	li.add(strs[i]);
+            }
+            else
+            {
+            	//System.out.println("hah");
+            	List<String> li=new ArrayList();
+            	li.add(strs[i]);
+            	table.put(ss, li);
+            }
+        }
+        Set<Entry<String, List<String>>> set=table.entrySet();
+        Iterator<Entry<String, List<String>>> it=set.iterator();
+        while(it.hasNext())
+        {
+        	Entry<String, List<String>> entry=it.next();
+        	List<String> ll=entry.getValue();
+        	Collections.sort(ll);
+        	list.add(ll);
+        }
+        
+        return list;
+        
+    }
+}
