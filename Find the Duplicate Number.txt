@@ -1,0 +1,25 @@
+public class Solution {
+    public int countSum(int []nums, int start, int end)
+    {
+        int sum=0;
+        for(int i=0; i<nums.length; i++)
+        {
+            if(nums[i]>=start&&nums[i]<=end)
+                sum++;
+        }
+        return sum;
+    }
+    public int findDuplicate(int[] nums) {
+        int start=1, end=nums.length;
+        while(start<end)
+        {
+            int mid=(start+end)/2;
+            int count=countSum(nums, start, mid);
+            if(count>mid-start+1)
+                end=mid;
+            else
+                start=mid+1;
+        }
+        return start;
+    }
+}

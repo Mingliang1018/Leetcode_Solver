@@ -1,0 +1,54 @@
+import java.util.*;
+public class Solution {
+    public boolean check(int []nums, int start, int n)
+    {
+        for(int i=0; i<start; i++)
+        {
+            if(nums[i]==n||(start-i)==Math.abs(nums[i]-n))
+                return false;
+        }
+        return true;
+    }
+    public List<String> print(int []nums)
+    {
+        List<String> list=new ArrayList();
+        for(int i=0; i<nums.length; i++)
+        {
+            String s="";
+            for(int j=0; j<nums.length; j++)
+            {
+                if(j==nums[i])
+                    s+='Q';
+                else
+                    s+='.';
+            }
+            list.add(s);
+        }
+        return list;
+    }
+    public void getSolve(int []nums, int start, List<List<String>> list)
+    {
+        if(start==nums.length)
+        {
+           List<String> li=print(nums);
+           list.add(li);
+           return;
+        }
+        for(int i=0; i<nums.length; i++)
+        {
+            if(check(nums, start, i))
+            {
+                nums[start]=i;
+                getSolve(nums, start+1, list);
+            }
+        }
+    }
+    
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> list=new ArrayList();
+        int []nums=new int[n];
+        getSolve(nums, 0, list);
+        return list;
+        
+    }
+}
