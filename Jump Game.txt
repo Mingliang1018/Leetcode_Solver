@@ -1,0 +1,16 @@
+public class Solution {
+    public boolean canJump(int[] A) {
+        int len=A.length;
+        if(len<2)
+            return true;
+        int remain=0;
+        for(int i=0; i<A.length-1; i++)
+        {
+            remain=Math.max(A[i], remain);
+            if(remain==0)
+                return false;
+            remain--;
+        }
+        return true;
+    }
+}
