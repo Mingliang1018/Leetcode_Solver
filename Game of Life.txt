@@ -1,0 +1,58 @@
+public class Solution {
+    public int count(int [][] board, int r, int c)
+    {
+        int m=board.length;
+        int n=board[0].length;
+        int sum=0;
+        int []R={1,0,-1,0, 1,-1,1,-1};
+        int []C={0,1,0,-1,1,-1,-1,1};
+        for(int i=0; i<8; i++)
+        {
+            int r1=r+R[i];
+            int c1=c+C[i];
+            if(r1>=0&&r1<m&&c1>=0&&c1<n)
+            {
+                if(Math.abs(board[r1][c1])==1)
+                    sum++;
+            }
+        }
+        return sum;
+    }
+    public void gameOfLife(int[][] board) {
+      int m=board.length;
+      int n=board[0].length;
+      for(int i=0; i<m; i++)
+      {
+          for(int j=0; j<n; j++)
+          {
+              int sum=count(board, i, j);
+              if(board[i][j]==0)
+              {
+                  if(sum==3)
+                    board[i][j]=2;
+              }
+              else
+              {
+                  if(sum<2||sum>3)
+                  {
+                      board[i][j]=-1;
+                  }
+              }
+          }
+      }
+      for(int i=0; i<m; i++)
+      {
+          for(int j=0; j<n; j++)
+          {
+              if(board[i][j]==-1)
+              {
+                  board[i][j]=0;
+              }
+              else if(board[i][j]==2)
+              {
+                  board[i][j]=1;
+              }
+          }
+      }
+    }
+}
