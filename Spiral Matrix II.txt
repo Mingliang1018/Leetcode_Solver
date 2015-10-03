@@ -1,0 +1,30 @@
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        int [][]res=new int[n][n];
+        int layers=n/2;
+        if(n%2!=0)
+            layers++;
+        int key=1;
+        for(int layer=0; layer<layers; layer++)
+        {
+            int len=n-2*layer;
+            for(int k=0; k<len; k++)
+            {
+                res[layer][layer+k]=key++;
+            }
+            for(int k=1; k<len; k++)
+            {
+                res[layer+k][layer+len-1]=key++;
+            }
+            for(int k=1; k<len; k++)
+            {
+                res[layer+len-1][layer+len-1-k]=key++;
+            }
+            for(int k=1; k<len-1; k++)
+            {
+                res[layer+len-1-k][layer]=key++;
+            }
+        }
+        return res;
+    }
+}

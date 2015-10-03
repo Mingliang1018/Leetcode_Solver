@@ -1,0 +1,39 @@
+public class Solution {
+    public String myPermutation(char []array, int k, int index, int []dp )
+    {
+        if(index==array.length)
+        {
+            return "";
+        }
+        int times=k/dp[index];
+        int i=0;
+        while(i<array.length)
+        {
+            if(array[i]!=' ')
+            {
+                times--;
+                if(times==-1)
+                    break;
+            }
+            i++;
+        }
+        char ch=array[i];
+        array[i]=' ';
+        return ch+myPermutation(array, k-(k/dp[index])*dp[index], index+1, dp);
+    }
+    public String getPermutation(int n, int k) {
+      char []array=new char[n];
+      for(int i=0; i<n; i++)
+      {
+          array[i]=(char)('1'+i);
+      }
+      int []dp=new int[n];
+      dp[n-1]=1;
+      for(int i=n-2; i>=0; i--)
+      {
+          dp[i]=((n-i)-1)*dp[i+1];
+      }
+      return myPermutation(array, k-1, 0, dp);
+      
+    }
+}
