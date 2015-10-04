@@ -1,0 +1,66 @@
+public class Solution {
+    public boolean isDigit(char ch)
+    {
+        if(ch>='0'&&ch<='9')
+            return true;
+        return false;
+    }
+    public boolean second(String s)
+    {
+        boolean digit=false;
+        if(s==null||s.length()==0)
+            return false;
+        int i=0;
+        if(s.charAt(i)=='+'||s.charAt(i)=='-')
+            i++;
+        while(i<s.length())
+        {
+            if(!isDigit(s.charAt(i)))
+                return false;
+            
+            digit=true; 
+            i++;
+        }
+        return digit;
+    }
+    public boolean isNumber(String s) {
+        s=s.trim();
+        if(s==null||s.length()==0)
+            return false;
+        int i=0;
+        if(s.charAt(i)=='-'||s.charAt(i)=='+')
+            i++;
+        boolean dotAppear=false;
+        boolean eAppear=false;
+        boolean digitAppear=false;
+        while(i<s.length())
+        {
+            char ch=s.charAt(i);
+            if(isDigit(s.charAt(i)))
+            {
+                digitAppear=true;
+            }
+            else if(ch=='.')
+            {
+                if(dotAppear)
+                    return false;
+                else
+                    dotAppear=true;
+            }
+            else if(ch=='e')
+            {
+                
+                if(!digitAppear)
+                    return false;
+                return second(s.substring(i+1));
+            }
+            
+            
+            else
+                return false;
+            i++;
+        }
+        return digitAppear;
+        
+    }
+}
