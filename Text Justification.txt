@@ -1,0 +1,77 @@
+import java.util.*;
+public class Solution {
+    public String justify(String [] words, int maxWidth, int start, int end, int totalLength)
+    {
+        String res="";
+        int slotsBase=0;
+        int remain=0;
+        if(end-start==0)
+        {
+            slotsBase=maxWidth-totalLength;
+            String slots="";
+            for(int i=0; i<slotsBase; i++)
+                slots+=' ';
+            res+=(words[start]+slots);
+            return res;
+        }
+            slotsBase=(maxWidth-totalLength)/(end-start);
+            remain=(maxWidth-totalLength)%(end-start);
+        
+        String slots="";
+        for(int i=0; i<slotsBase; i++)
+            slots+=' ';
+        
+        for(int i=start; i<end; i++)
+        {
+            res+=words[i];
+            if(remain-->0)
+               res=res+slots+' ';
+            else
+                res=res+slots;
+        }
+        res+=words[end];
+        return res;
+    }
+    public String lastLine(String []words,int start, int end, int maxWidth)
+    {
+        String res="";
+        for(int i=start; i<end; i++)
+        {
+            res+=(words[i]+" ");
+        }
+        res+=words[end];
+        int times=maxWidth-res.length();
+        for(int i=0; i<times; i++)
+        {
+            res+=' ';
+        }
+        return res;
+    }
+    public List<String> fullJustify(String[] words, int maxWidth) {
+       List<String> list=new ArrayList();
+       int start=0;
+       int i=0;
+       while(i<words.length)
+       {
+           start=i;
+           int totalLength=words[i].length();
+           int total=words[i].length()+1;
+           i++;
+           while(i<words.length&&total+words[i].length()<=maxWidth)
+           {
+               totalLength+=words[i].length();
+               total+=words[i].length()+1;
+               i++;
+           }
+           if(i<words.length)
+           {
+               list.add(justify(words, maxWidth, start, i-1, totalLength));
+           }
+           else
+           {
+               list.add(lastLine(words, start, i-1, maxWidth));
+           }
+       }
+       return list;
+    }
+}
