@@ -1,0 +1,25 @@
+import java.util.*;
+public class Solution {
+    public void getCombine(int n, int key, int k, List<Integer> li, List<List<Integer>> list)
+    {
+        if(li.size()==k)
+        {
+            List<Integer> ll=new ArrayList(li);
+            list.add(ll);
+            return;
+        }
+        if(key<=n)
+        {
+            li.add(key);
+            getCombine(n, key+1, k, li, list);
+            li.remove(li.size()-1);
+            getCombine(n, key+1, k, li, list);
+        }
+    }
+    public List<List<Integer>> combine(int n, int k) {
+        List<Integer> li=new ArrayList();
+        List<List<Integer>> list=new ArrayList();
+        getCombine(n, 1, k, li, list);
+        return list;
+    }
+}

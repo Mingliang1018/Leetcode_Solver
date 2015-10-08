@@ -1,0 +1,23 @@
+import java.util.*;
+public class Solution {
+    public void getSubset(int []nums, int start, List<Integer> li, List<List<Integer>> list)
+    {
+        if(start==nums.length)
+        {
+            List<Integer> ll=new ArrayList(li);
+            list.add(ll);
+            return;
+        }
+        li.add(nums[start]);
+        getSubset(nums, start+1, li, list);
+        li.remove(li.size()-1);
+        getSubset(nums, start+1, li, list);
+    }
+    public List<List<Integer>> subsets(int[] nums) {
+        Arrays.sort(nums);
+        List<Integer> li=new ArrayList();
+        List<List<Integer>> list=new ArrayList();
+        getSubset(nums, 0, li, list);
+        return list;
+    }
+}
