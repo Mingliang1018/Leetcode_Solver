@@ -1,0 +1,29 @@
+
+import java.util.*;
+public class Solution {
+    public void getSubsets(int []nums, int start, List<Integer> li, List<List<Integer>> list)
+    {
+        if(start==nums.length)
+        {
+            List<Integer> ll=new ArrayList(li);
+            list.add(ll);
+            return;
+        }
+        li.add(nums[start]);
+        getSubsets(nums, start+1, li, list);
+        li.remove(li.size()-1);
+        int k=1;
+        while(start+k<nums.length&&nums[start+k]==nums[start])
+            k++;
+        getSubsets(nums, start+k, li, list);
+    }
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> list=new ArrayList();
+        List<Integer> li=new ArrayList();
+        getSubsets(nums, 0, li, list);
+        return list;
+    }
+
+
+}
