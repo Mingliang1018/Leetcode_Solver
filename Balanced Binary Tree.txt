@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    int depth;
+    public boolean isBalanced(TreeNode root) {
+        if(root==null)
+        {
+            depth=0;
+            return true;
+        }
+        if(!isBalanced(root.left))
+            return false;
+        int left=depth;
+        if(!isBalanced(root.right))
+            return false;
+        int right=depth;
+        if(Math.abs(left-right)>1)
+            return false;
+        depth=Math.max(left, right)+1;
+        return true;
+    }
+}
