@@ -1,0 +1,50 @@
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.*;
+
+class MedianFinder {
+    Queue<Integer> maxHeap;
+    Queue<Integer> minHeap;
+    public MedianFinder(){
+    	maxHeap = new PriorityQueue<Integer>(1, new Comparator<Integer>(){
+    		public int compare(Integer a, Integer b)
+    		{
+    			return b-a;
+    		}
+    	});
+    	minHeap = new PriorityQueue<Integer>();
+    }
+    // Adds a number into the data structure.
+    public void addNum(int num) {
+    	if(maxHeap.peek()==null||num<=maxHeap.peek())
+    	{
+    		maxHeap.offer(num);
+    	}
+    	else
+    		minHeap.offer(num);
+    	if(minHeap.size()>maxHeap.size())
+    	{
+    		maxHeap.offer(minHeap.poll());
+    	}
+    	else if(maxHeap.size()-minHeap.size()>1)
+        {
+        	minHeap.offer(maxHeap.poll());
+        }
+        
+    }
+
+    // Returns the median of current data stream
+    public double findMedian() {
+        if((maxHeap.size()+minHeap.size())%2==0)
+        {
+        	return ((double)maxHeap.peek()+minHeap.peek())/2;
+        }
+        else
+        	return maxHeap.peek();
+    }
+};
+
+// Your MedianFinder object will be instantiated and called as such:
+// MedianFinder mf = new MedianFinder();
+// mf.addNum(1);
+// mf.findMedian();
