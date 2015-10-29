@@ -1,0 +1,25 @@
+import java.util.*;
+public class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> list = new ArrayList();
+        List<Integer> li = new ArrayList();
+        if(numRows<1)
+            return list;
+        li.add(1);
+        list.add(li);
+        while(numRows-->1)
+        {
+            List<Integer> ll = new ArrayList();
+            ll.add(1);
+            List<Integer> front = list.get(list.size()-1);
+            for(int i=0; i<front.size()-1; i++)
+            {
+                ll.add(front.get(i)+front.get(i+1));
+            }
+            ll.add(1);
+            list.add(ll);
+        }
+        return list;
+        
+    }
+}
