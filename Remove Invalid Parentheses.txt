@@ -1,0 +1,65 @@
+import java.util.*;
+public class Solution {
+    public boolean isValid(String s)
+    {
+        int left=0;
+        int i=0;
+        while(i<s.length())
+        {
+            if(s.charAt(i)=='(')
+            {
+                left++;
+            }
+            else if(s.charAt(i)==')')
+            {
+                if(left>0)
+                    left--;
+                else
+                    return false;
+            }
+            i++;
+        }
+        return left==0;
+    }
+    public List<String> removeInvalidParentheses(String s) {
+        List<String> list = new ArrayList();
+        Queue<String> que1 = new LinkedList();
+        Queue<Integer> que2 = new LinkedList();
+        
+        int minLen=0;
+        que1.offer(s);
+        que2.offer(0);
+        while(!que1.isEmpty())
+        {
+            String str = que1.poll();
+            int end = que2.poll();
+            if(isValid(str))
+            {
+                minLen = str.length();
+                list.add(str);
+            }
+            else if(str.length()<minLen)
+                return list;
+            else
+            {
+                int i=end;
+                while(i<str.length())
+                {
+                    if(str.charAt(i)!='('&&str.charAt(i)!=')')
+                    {
+                        i++;
+                        continue;
+                    }
+                    String newStr = str.substring(0, i)+str.substring(i+1);
+                    que1.offer(newStr);
+                    que2.offer(i);
+                    i++;
+                    while(i<str.length()&&str.charAt(i)==str.charAt(i-1))
+                        i++;
+                }
+            }
+        }
+        return list;
+        
+    }
+}
