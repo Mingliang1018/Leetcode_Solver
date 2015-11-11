@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+import java.util.*;
+public class Solution {
+    int maxSum = 0;
+    public int getPartialSum(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        int l = getPartialSum(root.left);
+        int r = getPartialSum(root.right);
+        int val = root.val;
+        if(l>0)
+            val+=l;
+        if(r>0)
+            val+=r;
+        maxSum = Math.max(maxSum, val);
+        return Math.max(Math.max(root.val, root.val+l), root.val+r);
+    }
+   
+    public int maxPathSum(TreeNode root) {
+        if(root == null)
+            return 0;
+        maxSum = root.val;
+        getPartialSum(root);
+        return maxSum;
+        
+    }
+}
