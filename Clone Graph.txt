@@ -1,0 +1,62 @@
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
+import java.util.*;
+public class Solution {
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if(node==null)
+            return null;
+        Hashtable<UndirectedGraphNode, Integer> table1 =new Hashtable();
+        Hashtable<Integer, UndirectedGraphNode> table2 =new Hashtable();
+        Queue<UndirectedGraphNode> que =new LinkedList();
+        
+        que.offer(node);
+        int lev=1;
+        table1.put(node, lev++);
+        while(!que.isEmpty())
+        {
+            UndirectedGraphNode tmp =que.poll();
+            int tmpLev = table1.get(tmp);
+            UndirectedGraphNode newNode =new UndirectedGraphNode(tmp.label);
+            table2.put(tmpLev, newNode);
+            
+            List<UndirectedGraphNode> list=tmp.neighbors;
+            for(UndirectedGraphNode n: list)
+            {
+                if(!table1.containsKey(n))
+                {
+                    table1.put(n, lev++);
+                    que.offer(n);
+                }
+            }
+        }
+        
+        Set<UndirectedGraphNode> set =new HashSet();
+        que.offer(node);
+        set.add(node);
+        while(!que.isEmpty())
+        {
+            UndirectedGraphNode tmp = que.poll();
+            UndirectedGraphNode myNode = table2.get(table1.get(tmp));
+            
+            List<UndirectedGraphNode> list=tmp.neighbors;
+            for(UndirectedGraphNode n: list)
+            {
+                myNode.neighbors.add(table2.get(table1.get(n)));
+                if(!set.contains(n))
+                {
+                    set.add(n);
+                    que.offer(n);
+                }
+            }
+            
+        }
+        return table2.get(table1.get(node));
+        
+    }
+}
