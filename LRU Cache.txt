@@ -1,0 +1,98 @@
+import java.util.*;
+
+public class LRUCache {
+    class Node{
+        int key;
+        int val;
+        Node next;
+        Node pre;
+        public Node(int val)
+        {
+            this.val=val;
+        }
+    }
+    Node head;
+    Node tail;
+    Hashtable<Integer, Node> table;
+    int count;
+    int capacity;
+    public LRUCache(int capacity) {
+        this.capacity=capacity;
+        count=0;
+        head = new Node(0);
+        tail = new Node(0);
+        head.next=tail;
+        tail.pre=head;
+        table = new Hashtable();
+        
+        
+    }
+    public void setToHead(Node node)
+    {
+        Node preNode = node.pre;
+        Node nextNode = node.next;
+        preNode.next = nextNode;
+        nextNode.pre = preNode;
+        
+        preNode = head;
+        nextNode = head.next;
+        preNode.next = node;
+        node.pre = preNode;
+        node.next = nextNode;
+        nextNode.pre = node;
+        
+    }
+    public void addToHead(Node node)
+    {
+        Node preNode = head;
+        Node nextNode = head.next;
+        
+        preNode.next = node;
+        node.pre = preNode;
+        
+        node.next = nextNode;
+        nextNode.pre = node;
+    }
+    public void removeFromTail()
+    {
+        Node node = tail.pre;
+        Node preNode = node.pre;
+        preNode.next = tail;
+        tail.pre = preNode;
+        table.remove(node.key);
+    }
+    
+    public int get(int key) {
+        if(table.containsKey(key))
+        {
+            Node node = table.get(key);
+            setToHead(node);
+            return node.val;
+        }
+        else
+            return -1;
+    }
+    
+    public void set(int key, int value) {
+        if(table.containsKey(key))
+        {
+            Node node = table.get(key);
+            node.val = value;
+            setToHead(node);
+        }
+        else
+        {
+            if(count==capacity)
+            {
+                removeFromTail();
+                count--;
+            }
+            Node node = new Node(value);
+            node.key = key;
+            addToHead(node);
+            count++;
+            table.put(key, node);
+        }
+        
+    }
+}

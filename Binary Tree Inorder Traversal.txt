@@ -10,35 +10,28 @@
 import java.util.*;
 public class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-       Stack<TreeNode> sta=new Stack();
-       Stack<Integer> sta1=new Stack();
-       List<Integer> list=new ArrayList();
+       List<Integer> list = new ArrayList();
        if(root==null)
         return list;
+       Stack<TreeNode> sta = new Stack();
        sta.push(root);
-       sta1.push(0);
        while(!sta.isEmpty())
        {
-           TreeNode tmp=sta.pop();
-           int flag=sta1.pop();
-           if(flag==1)
-           {
-               list.add(tmp.val);
-           }
+           TreeNode tmp = sta.peek();
+           if(tmp.left!=null)
+            sta.push(tmp.left);
            else
            {
+               tmp = sta.pop();
+               list.add(tmp.val);
+               while(tmp.right==null&&!sta.isEmpty())
+               {
+                tmp = sta.pop();
+                list.add(tmp.val);
+               }
                if(tmp.right!=null)
-               {
-                   sta.push(tmp.right);
-                   sta1.push(0);
-               }
-               sta.push(tmp);
-               sta1.push(1);
-               if(tmp.left!=null)
-               {
-                   sta.push(tmp.left);
-                   sta1.push(0);
-               }
+                sta.push(tmp.right);
+               
            }
        }
        return list;
