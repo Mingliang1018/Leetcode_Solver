@@ -1,0 +1,59 @@
+import java.util.*;
+public class Solution {
+    public List<String> getWord(String s, Set<String> dict, boolean []dp, int s1)
+    {
+        List<String> list =new ArrayList();
+        if(s1==-1)
+        {
+            list.add("");
+            return list;
+        }
+        int j=s1; 
+        while(j>=0)
+        {
+            String str=s.substring(j, s1+1);
+            if(dict.contains(str)&&dp[j])
+            {
+                List<String> ll=getWord(s, dict, dp, j-1);
+                for(String ss: ll)
+                {
+                    if(ss.length()==0)
+                    {
+                        list.add(str);
+                    }
+                    else
+                        list.add(ss+" "+str);
+                }
+            }
+            j--;
+        }
+        return list;
+    }
+    public List<String> wordBreak(String s, Set<String> dict) {
+        List<String> list=new ArrayList();
+        if(s==null || s.length()==0)
+            return list;
+        int len=s.length();
+        boolean []dp = new boolean[len+1];
+        dp[0] = true;
+        
+        for(int i=1; i<=len; i++)
+        {
+            int j=i-1;
+            while(j>=0)
+            {
+                String str=s.substring(j, i);
+                if(dict.contains(str)&&dp[j])
+                {
+                    dp[i]=true;
+                    break;
+                }
+                j--;
+            }
+        }
+        return getWord(s, dict, dp, s.length()-1);
+        
+        
+        
+    }
+}
