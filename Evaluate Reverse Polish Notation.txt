@@ -1,0 +1,38 @@
+import java.util.*;
+public class Solution {
+    public int calculate(int num1, int num2, String tokens)
+    {
+        switch(tokens)
+        {
+            case "+":
+                return num1+num2;
+            case "-":
+                return num1-num2;
+            case "*":
+                return num1*num2;
+            case "/":
+                return num1/num2;
+            default:
+            	return 0;
+        }
+    }
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> sta = new Stack();
+        for(int i=0; i<tokens.length; i++)
+        {
+            String str = tokens[i];
+            if(str.equals("+")||str.equals("-")||str.equals("*")||str.equals("/"))
+            {
+                int num2 = sta.pop();
+                int num1 = sta.pop();
+                sta.push(calculate(num1, num2, str));
+                
+            }
+            else
+            {
+                sta.push(Integer.parseInt(str));
+            }
+        }
+        return sta.pop();
+    }
+}

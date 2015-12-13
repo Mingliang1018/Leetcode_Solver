@@ -1,0 +1,45 @@
+import java.util.*;
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        boolean flag1=false, flag2=false;
+        long n1=numerator;
+        long n2=denominator;
+        if(n1<0)
+        {
+            flag1=true;
+            n1*=-1;
+        }
+        if(n2<0)
+        {
+            flag2=true;
+            n2*=-1;
+        }
+        String integerPart=String.valueOf(n1/n2);
+        String decimalPart="";
+        Hashtable<Long, Integer> table = new Hashtable();
+        int key=0;
+        n1=n1%n2;
+        while(n1!=0&&!table.containsKey(n1))
+        {
+            table.put(n1, key++);
+            n1*=10;
+            decimalPart+=String.valueOf((n1/n2));
+            n1=n1%n2;
+        }
+        if(table.containsKey(n1))
+        {
+            decimalPart=decimalPart.substring(0, table.get(n1))+"("+decimalPart.substring(table.get(n1))+")";
+        }
+        if((flag1==true&&flag2==false)||(flag1==false&&flag2==true))
+        {
+            if(integerPart.equals("0")&&decimalPart.length()==0)
+                return integerPart;
+            integerPart="-"+integerPart;
+        }
+        if(decimalPart.length()==0)
+            return integerPart;
+        return integerPart+'.'+decimalPart;
+        
+        
+    }
+}s

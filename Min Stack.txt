@@ -1,0 +1,45 @@
+class MinStack {
+    class Node{
+        int val;
+        Node next;
+        int min;
+        public Node(int val)
+        {
+           this.val = val; 
+        }
+    }
+    public Node head;
+    public void push(int x) {
+      Node node = new Node(x);
+      if(head==null)
+      {
+          node.min=x;
+          head=node;
+      }
+      else
+      {
+          if(x<head.min)
+            node.min=x;
+          else
+            node.min=head.min;
+          node.next=head;
+          head=node;
+      }
+    }
+
+    public void pop() {
+        head=head.next;
+       
+    }
+
+    public int top() {
+        return head.val;
+        
+        
+    }
+
+    public int getMin() {
+      return head.min;
+        
+    }
+}
