@@ -1,0 +1,56 @@
+import java.util.*;
+public class Solution {
+    public int translate(char ch)
+    {
+        switch(ch)
+        {
+            case 'A':
+                return 0;
+            case 'C':
+                return 1;
+            case 'G':
+                return 2;
+            case 'T':
+                return 3;
+            default:
+                return 4;
+        }
+    }
+    public List<String> findRepeatedDnaSequences(String s) {
+        List<String> list = new ArrayList();
+        if(s.length()<10)
+            return list;
+        BitSet b=new BitSet((1<<20)-1); 
+        BitSet b1=new BitSet((1<<20)-1);
+        int val=0;
+        for(int i=0; i<10; i++)
+        {
+           val<<=2;
+           val|=translate(s.charAt(i));
+        }
+        b.set(val);
+        int mask=(1<<20)-1;
+        for(int i=10; i<s.length(); i++)
+        {
+           val<<=2;
+           val&=mask;
+           val|=translate(s.charAt(i));
+           if(b.get(val))
+           {
+              if(b1.get(val)==false)
+              {
+                 list.add(s.substring(i-9, i+1));
+                 b1.set(val);
+              }
+           }
+           else
+           {
+              b.set(val);
+           }
+        }
+        return list;
+        
+        
+        
+    }
+}

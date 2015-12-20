@@ -1,0 +1,26 @@
+public class Solution {
+    public String largestNumber(int[] nums) {
+        int len=nums.length;
+        String []str=new String[len];
+        for(int i=0; i<nums.length; i++)
+        {
+            str[i]=String.valueOf(nums[i]);
+        }
+        Arrays.sort(str, new Comparator<String>(){
+            public int compare(String a, String b)
+            {
+                Long num1=Long.parseLong(a+b);
+                Long num2=Long.parseLong(b+a);
+                return (int)(num2-num1);
+            }
+            
+        });
+        String res="";
+        for(int i=0; i<len; i++)
+            res+=str[i];
+        int i=0;
+        while(i<(res.length()-1)&&res.charAt(i)=='0')
+            i++;
+        return res.substring(i);
+    }
+}

@@ -1,0 +1,39 @@
+public class Solution {
+    public void swap(int [] nums, int s1, int mid, int e1)
+    {
+        int len1=mid-s1+1;
+        int len2=e1-mid;
+        if(len1==len2)
+        {
+            int i=s1, j=mid+1;
+            while(i<=mid)
+            {
+                int tmp=nums[i];
+                nums[i]=nums[j];
+                nums[j]=tmp;
+                i++;
+                j++;
+            }
+            return;
+        }
+        else if(len1>len2)
+        {
+            swap(nums, mid+1-len2, mid, e1);
+            swap(nums, s1, mid+1-len2-1, mid);
+        }
+        else
+        {
+            swap(nums, s1, mid, mid+len1);
+            swap(nums, mid+1, mid+len1, e1);
+        }
+    }
+    public void rotate(int[] nums, int k) {
+        int len=nums.length;
+        k%=len;
+        if(k==0)
+            return;
+        swap(nums, 0, len-1-k, len-1);
+        
+        
+    }
+}

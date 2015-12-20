@@ -1,0 +1,15 @@
+public class Solution {
+    public int rob(int[] nums) {
+       if(nums.length<1)
+        return 0;
+       int p0=0;
+       int p1=nums[0];
+       for(int i=1; i<nums.length; i++)
+       {
+           int p=Math.max(nums[i]+p0, p1);
+           p0=p1;
+           p1=p;
+       }
+       return p1;
+    }
+}
