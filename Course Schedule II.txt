@@ -1,0 +1,44 @@
+public class Solution {
+    int index=0;
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+         int []res = new int[numCourses];
+         
+         List<List<Integer>> courses = new ArrayList();
+         for(int i=0; i<numCourses; i++)
+         {
+             courses.add(new ArrayList());
+         }
+         for(int i=0; i<prerequisites.length; i++)
+         {
+             courses.get(prerequisites[i][0]).add(prerequisites[i][1]);
+         }
+         
+         int []tag = new int[numCourses];
+         
+         for(int i=0; i<numCourses; i++)
+         {
+             if(dfs(courses, i, tag, res)==false)
+                return new int[0];
+         }
+         return res;
+         
+    }
+    public boolean dfs(List<List<Integer>> courses, int start, int []tag, int []res)
+    {
+        if(tag[start]==2)
+            return true;
+        if(tag[start]==1)
+            return false;
+        List<Integer> preCourses = courses.get(start);
+        tag[start] = 1;
+        for(int i=0; i<preCourses.size(); i++)
+        {
+            if(dfs(courses, preCourses.get(i), tag, res)==false)
+                return false;
+        }
+        tag[start] = 2;
+        res[index++]=start;
+        return true;
+    }
+
+}
