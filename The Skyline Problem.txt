@@ -1,0 +1,89 @@
+import java.util.*;
+public class Solution {
+    class Node{
+        int x;
+        int height;
+        boolean isStart;
+        public Node(int x, int height, boolean isStart)
+        {
+            this.x = x;
+            this.height = height;
+            this.isStart = isStart;
+        }
+    }
+    public List<int[]> getSkyline(int[][] buildings) {
+        List<int[]> list = new ArrayList();
+        int m=buildings.length;
+        List<Node> myList = new ArrayList();
+        if(m==0)
+            return list;
+        for(int i=0; i<m; i++)
+        {
+            Node node1 = new Node(buildings[i][0], buildings[i][2], true);
+            Node node2 = new Node(buildings[i][1], buildings[i][2], false);
+            myList.add(node1);
+            myList.add(node2);
+        }
+        
+        Collections.sort(myList, new Comparator<Node>(){
+            public int compare(Node node1, Node node2)
+            {
+                return node1.x-node2.x;
+            }
+            });
+        int curHeight = 0;
+        PriorityQueue<Integer> que = new PriorityQueue(2*m, new Comparator<Integer>(){
+            public int compare(Integer a, Integer b)
+            {
+                return b-a;
+            }
+        });
+        que.offer(0);
+        Hashtable<Integer, Integer> table = new Hashtable();
+        int i=0;
+        while(i<myList.size())
+        {
+            Node node = myList.get(i);
+            if(node.isStart)
+            {
+                que.offer(node.height);
+                
+            }
+            else
+            {
+            	if(table.containsKey(node.height))
+            	{
+            		table.put(node.height, table.get(node.height)+1);
+            	}
+            	else
+            		table.put(node.height, 1);
+            }
+            i++;
+            if(i==myList.size()||myList.get(i).x!=node.x)
+            {
+            clear(que, table);
+            if(que.peek()!=curHeight)
+            {
+            	int []res={node.x, que.peek()};
+            	list.add(res);
+            	curHeight = que.peek();
+            	
+            }
+            }
+            
+            
+        }
+        return list;
+        
+        
+    }
+    public void clear(PriorityQueue<Integer> que, Hashtable<Integer, Integer> table)
+    {
+    	while(que.size()>1&&table.containsKey(que.peek())&&table.get(que.peek())>0)
+    	{
+    		int tmp = que.poll();
+    		table.put(tmp, table.get(tmp)-1);
+    	}
+    }
+    
+}

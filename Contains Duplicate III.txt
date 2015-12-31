@@ -1,0 +1,101 @@
+public class Solution {
+    class Node{
+        int val;
+        Node left, right;
+        public Node(int val){
+           this.val = val; 
+        }
+    }
+    Node root;
+    long min;
+    public Node addToNode(Node node, Node root)
+    {
+        if(root == null)
+            return node;
+        min = Math.min(min, Math.abs((long)node.val-root.val));
+        //System.out.println(min);
+        if(node.val>=root.val)
+        {
+            root.right = addToNode(node, root.right);
+        }
+        else
+        {
+            root.left = addToNode(node, root.left);
+        }
+        return root;
+    }
+    public void add(int val)
+    {
+        Node node = new Node(val);
+        if(root==null)
+        {
+            root = node;
+            return;
+        }
+        addToNode(node, root);
+    }
+    public Node remove(int val, Node root)
+    {
+        if(root.val == val)
+        {
+            if(root.left==null)
+                return root.right;
+            else if(root.right==null)
+                return root.left;
+            else
+            {
+                Node previous = root.right;
+                if(previous.left==null)
+                {
+                    previous.left = root.left;
+                    return previous;
+                }
+                while(previous.left.left!=null)
+                {
+                    previous = previous.left;
+                }
+                Node tmp = previous.left;
+                previous.left = tmp.right;
+                tmp.left = root.left;
+                tmp.right = root.right;
+                return tmp;
+                
+            }
+        }
+        else if(root.val>=val)
+        {
+           root.left = remove(val, root.left);
+           
+        }
+        else
+            root.right = remove(val, root.right);
+        return root;
+    }
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        min = (long)Integer.MAX_VALUE+1;
+        if(k>nums.length-1)
+        	k=nums.length-1;
+        for(int i=0; i<Math.min(k+1, nums.length); i++)
+        {
+            add(nums[i]);
+            if(min<=t)
+            {
+            	//System.out.println("min="+min);
+                return true;
+            }
+            min = (long)Integer.MAX_VALUE+1;
+        }
+        int j=k+1, i=0;
+        while(j<nums.length)
+        {
+            root = remove(nums[i++], root);
+            add(nums[j++]);
+            if(min<=t)
+            {
+                return true;
+            }
+            min = (long)Integer.MAX_VALUE+1;
+        }
+        return false;
+    }
+}

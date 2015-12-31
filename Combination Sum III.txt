@@ -1,0 +1,25 @@
+public class Solution {
+    public void getCombination(int k, int sum, int num, List<List<Integer>> list, List<Integer> li)
+    {
+        if(k==0&&sum==0)
+        {
+            List<Integer> ll=new ArrayList(li);
+            list.add(ll);
+            return;
+        }
+        if(k==0||num>9||num>sum)
+            return;
+        getCombination(k, sum, num+1, list, li);
+        li.add(num);
+        getCombination(k-1, sum-num, num+1, list, li);
+        li.remove(li.size()-1);
+        
+    }
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> list = new ArrayList();
+        List<Integer> li = new ArrayList();
+        getCombination(k, n, 1, list, li);
+        return list;
+        
+    }
+}

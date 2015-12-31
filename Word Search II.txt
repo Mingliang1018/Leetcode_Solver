@@ -1,0 +1,99 @@
+import java.util.*;
+public class Solution {
+    class TrieNode {
+    // Initialize your data structure here.
+    boolean isWord;
+    String word; 
+    TrieNode []children;
+    public TrieNode() {
+        isWord = false;
+        children = new TrieNode[26];
+    }
+}
+    private TrieNode root = new TrieNode();
+    public void startInsert(String word, TrieNode root, int start)
+    {
+        if(start == word.length())
+        {
+            root.isWord = true;
+            root.word = word;
+            return;
+        }
+        int index = word.charAt(start)-'a';
+        if(root.children[index]==null)
+        {
+           TrieNode node = new TrieNode();
+           root.children[index] = node;
+        }
+        startInsert(word, root.children[index], start+1);
+        
+    }
+
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        startInsert(word, root, 0);
+    }
+    public void find(char [][]board, TrieNode node, int s, int e, Set<String> set, boolean [][]visited)
+    {
+        if(node.isWord)
+        {
+            set.add(node.word);
+        }
+        int []R = {1,0,-1,0};
+        int []C = {0,1,0,-1};
+        
+        for(int i=0; i<4; i++)
+        {
+           int r = s+R[i];
+           int c = e+C[i];
+           if(r>=0&&r<board.length&&c>=0&&c<board[0].length&&visited[r][c]==false)
+           {
+               int index=board[r][c]-'a';
+               if(node.children[index]!=null)
+               {
+                   visited[r][c]=true;
+                   find(board, node.children[index], r, c, set, visited);
+                   visited[r][c]=false;
+               }
+           }
+        }
+        
+    }
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> list = new ArrayList();
+        
+        for(String str: words)
+        {
+            addWord(str);
+        }
+        
+        int m=board.length;
+        int n=board[0].length;
+        Set<String> set = new HashSet();
+        boolean [][]visited=new boolean[m][n];
+        for(int i=0; i<m; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                int index=board[i][j]-'a';
+                if(root.children[index]!=null)
+                {
+                    visited[i][j]=true;
+                    find(board, root.children[index], i, j, set, visited);
+                    visited[i][j]=false;
+                }
+            }
+        }
+        Iterator it = set.iterator();
+        while(it.hasNext())
+        {
+        	list.add((String)it.next());
+        }
+        return list;
+        
+        
+        
+        
+        
+    }
+}

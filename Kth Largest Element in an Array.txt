@@ -1,0 +1,31 @@
+public class Solution {
+    public int find(int []nums, int s, int e, int k)
+    {
+        int l=s, r=e;
+        while(l<=r)
+        {
+            while(l<=r&&nums[l]<=nums[s])
+                l++;
+            while(l<=r&&nums[r]>nums[s])
+                r--;
+            if(l<r)
+            {
+                int tmp=nums[l];
+                nums[l]=nums[r];
+                nums[r]=tmp;
+            }
+        }
+        l--;
+        int len=l-s+1;
+        if(len==k)
+            return nums[s];
+        if(len<k)
+            return find(nums, l+1, e, k-len);
+        else
+            return find(nums, s+1, l, k);
+    }
+    public int findKthLargest(int[] nums, int k) {
+        int len=nums.length;
+        return find(nums, 0, len-1, len-k+1);
+    }
+}

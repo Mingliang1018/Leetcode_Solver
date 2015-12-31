@@ -1,0 +1,66 @@
+public class WordDictionary {
+   class TrieNode {
+    // Initialize your data structure here.
+    boolean isWord;
+    TrieNode []children;
+    public TrieNode() {
+        isWord = false;
+        children = new TrieNode[26];
+    }
+}
+    private TrieNode root = new TrieNode();
+    public void startInsert(String word, TrieNode root, int start)
+    {
+        if(start == word.length())
+        {
+            root.isWord = true;
+            return;
+        }
+        int index = word.charAt(start)-'a';
+        if(root.children[index]==null)
+        {
+           TrieNode node = new TrieNode();
+           root.children[index] = node;
+        }
+        startInsert(word, root.children[index], start+1);
+        
+    }
+    
+    public boolean startSearch(String word, TrieNode root, int start)
+    {
+        if(start == word.length())
+        {
+            return root.isWord;
+        }
+        if(word.charAt(start)=='.')
+        {
+            TrieNode []children = root.children;
+            for(TrieNode node: children)
+            {
+                if(node != null&&startSearch(word, node, start+1))
+                    return true;
+            }
+            return false;
+        }
+        int index = word.charAt(start) - 'a';
+        if(root.children[index]==null)
+            return false;
+        return startSearch(word, root.children[index], start+1);
+    }
+    // Returns if the word is in the trie.
+    public boolean search(String word) {
+        return startSearch(word, root, 0);
+    }
+
+    // Adds a word into the data structure.
+    public void addWord(String word) {
+        startInsert(word, root, 0);
+    }
+
+    
+}
+
+// Your WordDictionary object will be instantiated and called as such:
+// WordDictionary wordDictionary = new WordDictionary();
+// wordDictionary.addWord("word");
+// wordDictionary.search("pattern");
