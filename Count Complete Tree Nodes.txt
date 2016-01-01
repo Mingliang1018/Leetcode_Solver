@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int getHeight(TreeNode root)
+    {
+        if(root==null)
+            return 0;
+        return 1+getHeight(root.left);
+    }
+    
+    public int countNodes(TreeNode root) {
+        if(root==null)
+            return 0;
+        int l=getHeight(root.left);
+        int r=getHeight(root.right);
+        if(l==r)
+        {
+            return countNodes(root.right)+(1<<l);
+        }
+        else
+            return countNodes(root.left)+(1<<r);
+    }
+}
