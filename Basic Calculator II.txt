@@ -1,0 +1,75 @@
+public class Solution {
+    Stack<Integer> staNum = new Stack();
+    Stack<Character> staFlag = new Stack();
+    public void startCalculate(){
+        if(!staFlag.isEmpty())
+        {
+            char flag = staFlag.pop();
+            int num2 = staNum.pop();
+            int num1 = staNum.pop();
+            switch(flag)
+            {
+                case '+':
+                    staNum.push(num1+num2);
+                    break;
+                case '-':
+                    staNum.push(num1-num2);
+                    break;
+                case '*':
+                    staNum.push(num1*num2);
+                    break;
+                case '/':
+                    staNum.push(num1/num2);
+                    break;
+            }
+        }
+    }
+    public boolean isHighPriority(char ch1, char ch2)
+    {
+        if((ch1=='*'||ch1=='/')&&(ch2=='+'||ch2=='-'))
+        {
+            return true;
+        }
+        return false;
+    }
+    public boolean isDigit(char ch)
+    {
+        if(ch>='0'&&ch<='9')
+            return true;
+        return false;
+    }
+    public int calculate(String s) {
+        int i=0;
+        while(i<s.length())
+        {
+            char ch = s.charAt(i);
+            if(ch=='*'||ch=='/'||ch=='+'||ch=='-')
+            {
+                while(!staFlag.isEmpty()&&!isHighPriority(ch, staFlag.peek()))
+                {
+                    startCalculate();
+                }
+                staFlag.push(ch);
+            }
+            else if(isDigit(ch))
+            {
+                int j=i;
+                while(j<s.length()&&isDigit(s.charAt(j)))
+                {
+                    j++;
+                }
+                int num = Integer.parseInt(s.substring(i, j));
+                staNum.push(num);
+                i=j-1;
+            }
+            i++;
+        }
+        while(!staFlag.isEmpty())
+        {
+            startCalculate();
+        }
+        if(staNum.isEmpty())
+            return 0;
+        return staNum.peek();
+    }
+}

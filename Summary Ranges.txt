@@ -1,0 +1,26 @@
+public class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> list = new ArrayList();
+        int i=0;
+        while(i<nums.length)
+        {
+            int j=i+1;
+            while(j<nums.length&&nums[j]==nums[j-1]+1)
+                j++;
+            j--;
+            String res="";
+            if(i==j)
+            {
+              res=String.valueOf(nums[i]);  
+            }
+            else
+            {
+                res=String.valueOf(nums[i])+"->"+String.valueOf(nums[j]);
+            }
+            list.add(res);
+            i=j+1;
+        }
+        return list;
+        
+    }
+}
