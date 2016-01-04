@@ -1,0 +1,35 @@
+import java.util.*;
+public class Solution {
+	public void add(int []nums, int s, Deque<Integer> deque)
+	{
+		while(!deque.isEmpty()&&nums[deque.getLast()]<nums[s])
+		{
+			deque.pollLast();
+		}
+		deque.addLast(s);
+	}
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums.length<1)
+            return new int[0];
+    	Deque<Integer> deque = new LinkedList();
+        int len=nums.length-k+1;
+        int []res = new int[len];
+        
+        for(int i=0; i<k; i++)
+        {
+        	add(nums, i, deque);
+        }
+        int j=0;
+        res[j++]=nums[deque.getFirst()];
+        for(int i=k; i<nums.length; i++)
+        {
+        	if(i-deque.getFirst()>=k)
+        		deque.pollFirst();
+        	add(nums, i, deque);
+        	res[j++] = nums[deque.getFirst()];
+        }
+        return res;
+        
+        
+    }
+}
