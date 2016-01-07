@@ -1,0 +1,16 @@
+public class Solution {
+    public int hIndex(int[] citations) {
+        Arrays.sort(citations);
+        int h=1;
+        int index=citations.length-1;
+        while(index>=0)
+        {
+            if(citations[index]<h)
+                break;
+            h++;
+            index=citations.length-h;
+        }
+        return h-1;
+        
+    }
+}

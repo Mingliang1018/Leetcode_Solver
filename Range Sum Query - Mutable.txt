@@ -1,0 +1,90 @@
+public class NumArray {
+    class Node{
+        int sum;
+        Node left, right;
+        public Node(int val)
+        {
+            sum = val;
+        }
+    }
+    
+    public Node getSegmentTree(int [] nums, int s, int e)
+    {
+        if(s==e)
+        {
+            return new Node(nums[s]);
+        }
+        int mid=(s+e)/2;
+        Node left = getSegmentTree(nums, s, mid);
+        Node right = getSegmentTree(nums, mid+1, e);
+        Node node = new Node(left.sum+right.sum);
+        node.left = left;
+        node.right = right;
+        return node;
+    }
+    public int updateTree(int i, int val, Node node, int s, int e)
+    {
+        if(s==e)
+        {
+            int tmp = val - node.sum;
+            node.sum = val;
+            return tmp;
+        }
+        int mid = (s+e)/2;
+        int tmp=0;
+        if(i<=mid)
+        {
+            tmp = updateTree(i, val, node.left, s, mid);
+        }
+        else
+            tmp = updateTree(i, val, node.right, mid+1, e);
+        node.sum+=tmp;
+        return tmp;
+        
+        
+    }
+    public int getRange(int i, int j, Node node, int s, int e)
+    {
+        if(i==s&&j==e)
+            return node.sum;
+        int mid = (s+e)/2;
+        if(j<=mid)
+        {
+            return getRange(i, j, node.left, s, mid);
+        }
+        else if(i>mid)
+        {
+            return getRange(i, j, node.right, mid+1, e);
+        }
+        else
+        {
+            return getRange(i, mid, node.left, s, mid)+getRange(mid+1, j, node.right, mid+1, e);
+        }
+            
+    }
+    Node root = null;
+    int len = 0;
+
+    public NumArray(int[] nums) {
+        if(nums==null||nums.length==0)
+            return;
+        root = getSegmentTree(nums, 0, nums.length-1);
+        len = nums.length;
+        
+    }
+
+    void update(int i, int val) {
+         updateTree(i, val, root, 0, len-1);
+    }
+
+    public int sumRange(int i, int j) {
+        return getRange(i, j, root, 0, len-1);
+    }
+}
+
+
+// Your NumArray object will be instantiated and called as such:
+// NumArray numArray = new NumArray(nums);
+// numArray.sumRange(0, 1);
+// numArray.update(1, 10);
+// numArray.sumRange(1, 2);

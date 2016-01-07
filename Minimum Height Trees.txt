@@ -1,0 +1,56 @@
+import java.util.*;
+public class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if(n==1)
+        {
+            List<Integer> list = new ArrayList();
+            list.add(0);
+            return list;
+        }
+        Set<Integer> []graph = new HashSet[n];
+        for(int i=0; i<n; i++)
+        {
+            graph[i] = new HashSet();
+        }
+        
+        for(int i=0; i<edges.length; i++)
+        {
+            graph[edges[i][0]].add(edges[i][1]);
+            graph[edges[i][1]].add(edges[i][0]);
+        }
+        
+        List<Integer> list = new ArrayList();
+        for(int i=0; i<n; i++)
+        {
+            if(graph[i].size()==1)
+                list.add(i);
+        }
+        while(true)
+        {
+        List<Integer> li = new ArrayList();
+        for(Integer n1: list)
+        {
+            for(int i: graph[n1])
+            {
+                   if(graph[i].contains(n1))
+                   {
+                       graph[i].remove(n1);
+                       if(graph[i].size()==1)
+                       {
+                           li.add(i);
+                       }
+                   }
+            }
+                
+            
+        }
+        if(li.size()==0)
+            return list;
+        list = li;
+        
+        }
+        
+        
+        
+    }
+}

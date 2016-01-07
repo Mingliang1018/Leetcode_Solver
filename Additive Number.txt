@@ -1,0 +1,110 @@
+public class Solution {
+    public String add(String s1, String s2)
+    {
+        String res="";
+        int i = s1.length()-1;
+        int j = s2.length()-1;
+        int carry = 0;
+        
+        while(i>=0&&j>=0)
+        {
+            int num=(s1.charAt(i)-'0')+(s2.charAt(j)-'0')+carry;
+            res=(char)(num%10+'0')+res;
+            carry=num/10;
+            i--;
+            j--;
+        }
+        if(carry!=0)
+        {
+            if(i>=0)
+            {
+                res=add(s1.substring(0, i+1), "1")+res;
+            }
+            else
+            {
+                res=add(s2.substring(0, j+1), "1")+res;
+            }
+        }
+        else
+        {
+            if(i>=0)
+            {
+                res=s1.substring(0, i+1)+res;
+            }
+            else
+            {
+                res=s2.substring(0, j+1)+res;
+            }
+        }
+        return res;
+    }
+    public int getAdditiveNumber(String num, int s, String str1, String str2)
+    {
+        if(num.charAt(s)=='0')
+        {
+            if(add(str1, str2)=="0")
+            {
+                return s+1;
+            }
+            return -1;
+        }
+        String res = add(str1, str2);
+        if(num.length()-s<res.length()||!num.substring(s, s+res.length()).equals(res))
+            return -1;
+        return s+res.length();
+        
+    }
+    public boolean check(String num, int i, int j)
+    {
+       int index=getAdditiveNumber(num, j+1, num.substring(0, i+1), num.substring(i+1, j+1));
+       if(index==num.length())
+                return true;
+       if(index!=-1)
+       {
+          if(isAdditiveNumber(num.substring(i+1)))
+          {
+              return true;  
+          }
+       }
+       return false;
+    }
+    public boolean isAdditiveNumber(String num) {
+       if(num==null||num.length()<3)
+        return false;
+       if(num.charAt(0)=='0')
+       {
+           for(int j=1; j<num.length()-1; j++)
+           {
+               if(num.charAt(j)=='0')
+               {
+                   return check(num, 0, 1);
+               }
+               if(check(num, 0, j))
+                 return true;
+           }
+           return false;
+       }
+       else
+       {
+          for(int i=0; i<num.length()/2; i++)
+          {
+              if(num.charAt(i+1)=='0')
+              {
+                  if(check(num, i, i+1))
+                    return true;
+              }
+              else
+              {
+              for(int j=i+1; j<num.length()-1; j++)
+              {
+                  if(check(num, i, j))
+                    return true;
+              }
+              }
+          }
+          return false;
+       }
+       
+        
+    }
+}

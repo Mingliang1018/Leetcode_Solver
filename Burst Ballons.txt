@@ -1,0 +1,33 @@
+public class Solution {
+    public int maxCoins(int[] nums) {
+        int len = nums.length;
+        int []array = new int[len+2];
+        array[0] = 1;
+        array[array.length-1] =1;
+        for(int i=1; i<=len; i++)
+        {
+            array[i] = nums[i-1];
+        }
+        
+        int [][]dp = new int[len+2][len+2];
+        for(int i=1; i<len+1; i++)
+        {
+            dp[i][i]=array[i-1]*array[i]*array[i+1];
+        }
+        
+        for(int l=2; l<=len; l++)
+        {
+            for(int i=1; i+l<=len+1; i++)
+            {
+                int j=i+l-1;
+                for(int k=i; k<=j; k++)
+                {
+                    int max = dp[i][k-1]+array[i-1]*array[k]*array[j+1]+dp[k+1][j];
+                    dp[i][j]=Math.max(max, dp[i][j]);
+                }
+            }
+        }
+        return dp[1][len];
+        
+    }
+}

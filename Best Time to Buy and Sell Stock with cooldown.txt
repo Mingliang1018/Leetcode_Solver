@@ -1,0 +1,21 @@
+public class Solution {
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if(len<2)
+            return 0;
+        int []maxP = new int[len+1];
+        int []maxBuy = new int[len+1];
+        
+        maxBuy[0] = Integer.MIN_VALUE;
+        maxBuy[1] = -prices[0];
+        
+        for(int i=2; i<=len; i++)
+        {
+            maxP[i] = Math.max(maxBuy[i-1]+prices[i-1], maxP[i-1]);
+            maxBuy[i] = Math.max(maxBuy[i-1], maxP[i-2]-prices[i-1]);
+        }
+        
+        return maxP[len];
+        
+    }
+}
