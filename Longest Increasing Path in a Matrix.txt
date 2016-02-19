@@ -1,0 +1,50 @@
+public class Solution {
+    public void find(int [][] matrix, int r, int c, int [][]dp)
+    {
+        if(dp[r][c]!=0)
+            return;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        
+        dp[r][c] = 1;
+        int []R = {0, 1, 0, -1};
+        int []C = {1, 0, -1, 0};
+        
+        for(int i=0; i<4; i++)
+        {
+            int row = r+R[i];
+            int col = c+C[i];
+            if(row>=0&&row<m&&col>=0&&col<n&&matrix[r][c]<matrix[row][col])
+            {
+                if(dp[row][col]==0)
+                {
+                    find(matrix, row, col, dp);
+                   
+                }
+                dp[r][c]=Math.max(dp[r][c], dp[row][col]+1);
+            }
+        }
+        
+    }
+    public int longestIncreasingPath(int[][] matrix) {
+        int m = matrix.length;
+        if(m==0)
+            return 0;
+        int n = matrix[0].length;
+        if(n==0)
+            return 0;
+        
+        int [][]dp = new int[m][n];
+        int maxLen = 0;
+        for(int i=0; i<m; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                find(matrix, i, j, dp);
+                maxLen = Math.max(maxLen, dp[i][j]);
+            }
+        }
+        return maxLen;
+        
+    }
+}

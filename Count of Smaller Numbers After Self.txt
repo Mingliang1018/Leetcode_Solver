@@ -1,0 +1,30 @@
+public class Solution {
+    List<Integer> bstList = new ArrayList();
+    public int findIndex(int target)
+    {
+       int i=-1, j=bstList.size();
+       while(i<j-1)
+       {
+           int mid=(i+j)/2;
+           if(bstList.get(mid)<target)
+           {
+               i = mid;
+           }
+           else
+           {
+               j=mid;
+           }
+       }
+       return i;
+    }
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> res = new ArrayList();
+        for(int i=nums.length-1; i>=0; i--)
+        {
+            int index = findIndex(nums[i]);
+            res.add(0, index+1);
+            bstList.add(index+1, nums[i]);
+        }
+        return res;
+    }
+}

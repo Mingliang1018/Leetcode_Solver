@@ -1,0 +1,34 @@
+public class Solution {
+    public String removeDuplicateLetters(String s) {
+        int []array = new int[256];
+        for(int i=0; i<s.length(); i++)
+        {
+            array[s.charAt(i)-'0']++;
+        }
+        Stack<Character> sta = new Stack();
+        Set<Character> set = new HashSet();
+        for(int i=0; i<s.length(); i++)
+        {
+            char ch = s.charAt(i);
+            array[ch-'0']--;
+            if(set.contains(ch))
+                continue;
+            while(!sta.isEmpty()&&sta.peek()>ch&&array[sta.peek()-'0']!=0)
+            {
+                set.remove(sta.pop());
+            }
+            sta.push(ch);
+            set.add(ch);
+            
+            
+        }
+        String res = "";
+        while(!sta.isEmpty())
+        {
+            res=sta.pop()+res;
+        }
+        return res;
+        
+        
+    }
+}
