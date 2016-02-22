@@ -1,0 +1,58 @@
+
+import java.util.*;
+import java.util.Map.Entry;
+public class Solution {
+    public boolean find(Hashtable<String, List<String>> table , String from, List<String> list, int tickets)
+    {
+       //System.out.println("from is: " + from);
+       if(list.size()>=tickets)
+          return true;
+        if(!table.containsKey(from)||table.get(from).isEmpty())
+            return false;
+        List<String> li = table.get(from);
+        
+        for(int i=0; i<li.size(); i++)
+        {
+            String s = li.get(i);
+            list.add(s);
+            li.remove(i);
+            if(find(table, s, list, tickets))
+                return true;
+            list.remove(list.size()-1);
+            li.add(i, s);
+        }
+        return false;
+    }
+    public List<String> findItinerary(String[][] tickets) {
+        Hashtable<String, List<String>> table = new Hashtable();
+        List<String> list = new ArrayList();
+        
+        for(int i=0; i<tickets.length; i++)
+        {
+            String from = tickets[i][0];
+            String to = tickets[i][1];
+            if(!table.containsKey(from))
+            {
+                List<String> li = new ArrayList();
+                table.put(from, li);
+            }
+            List<String> li = table.get(from);
+            li.add(to);
+        }
+        
+        for(List<String> li: table.values())
+        {
+            Collections.sort(li);
+        }
+        list.add("JFK");
+        find(table, "JFK", list, tickets.length+1);
+        return list;
+      
+        
+        
+        
+        
+        
+        
+    }
+}
